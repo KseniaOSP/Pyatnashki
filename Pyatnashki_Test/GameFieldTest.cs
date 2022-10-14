@@ -9,7 +9,7 @@ namespace Pyatnashki_Test
         [Fact]
         public void DetectsWinField()
         {
-            GameField gameField = new GameField();
+            Game gameField = new Game();
             int[,] winField = new int[4, 4] {
                 { 1, 2, 3, 4 },
                 { 5, 6, 7, 8 },
@@ -23,7 +23,7 @@ namespace Pyatnashki_Test
         [Fact]
         public void RejectsWinField()
         {
-            GameField gameField = new GameField();
+            Game gameField = new Game();
             int[,] anyField = new int[4, 4] { 
                 { 1, 2, 4, 3 },
                 { 5, 6, 7, 8 },
@@ -37,7 +37,7 @@ namespace Pyatnashki_Test
         [Fact]
         public void MovesLeftIfPossible()
         {
-            GameField gameField = new GameField();
+            Game gameField = new Game();
             gameField.SetField(new int[4, 4] {
                 { 1, 2, 3, 4 },
                 { 5, 6, 7, 8 },
@@ -58,7 +58,7 @@ namespace Pyatnashki_Test
         [Fact]
         public void DoesNotMoveLeftIfImpossible()
         {
-            GameField gameField = new GameField();
+            Game gameField = new Game();
             gameField.SetField(new int[4, 4] {
                 { 1, 2, 3, 4 },
                 { 5, 6, 7, 8 },
@@ -79,7 +79,7 @@ namespace Pyatnashki_Test
         [Fact]
         public void MovesRightIfPossible()
         {
-            GameField gameField = new GameField();
+            Game gameField = new Game();
             gameField.SetField(new int[4, 4] {
                 { 1, 2, 3, 4 },
                 { 5, 6, 7, 8 },
@@ -99,7 +99,7 @@ namespace Pyatnashki_Test
         [Fact]
         public void DoesNotMoveIfImpossible()
         {
-            GameField gameField = new GameField();
+            Game gameField = new Game();
             gameField.SetField(new int[4, 4] {
                 { 1, 2, 3, 4 },
                 { 5, 6, 7, 8 },
@@ -119,7 +119,7 @@ namespace Pyatnashki_Test
         [Fact]
         public void MovesUpIfPossible()
         {
-            GameField gameField = new GameField();
+            Game gameField = new Game();
             gameField.SetField(new int[4, 4] {
                 { 1, 2, 3, 4 },
                 { 5, 6, 7, 8 },
@@ -139,7 +139,7 @@ namespace Pyatnashki_Test
         [Fact]
         public void DoesNotMoveUpIfImpossible()
         {
-            GameField gameField = new GameField();
+            Game gameField = new Game();
             gameField.SetField(new int[4, 4] {
                 { 1, 2, 3, 4 },
                 { 5, 6, 7, 8 },
@@ -160,7 +160,7 @@ namespace Pyatnashki_Test
         [Fact]
         public void MovesDownIfPossible()
         {
-            GameField gameField = new GameField();
+            Game gameField = new Game();
             gameField.SetField(new int[4, 4] {
                 { 1, 2, 3, 4 },
                 { 5, 6, 7, 8 },
@@ -180,7 +180,7 @@ namespace Pyatnashki_Test
         [Fact]
         public void DoesNotMoveDownIfImpossible()
         {
-            GameField gameField = new GameField();
+            Game gameField = new Game();
             gameField.SetField(new int[4, 4] {
                 { 0, 2, 3, 4 },
                 { 1, 6, 7, 8 },
@@ -200,7 +200,7 @@ namespace Pyatnashki_Test
         [Fact]
         public void RandomFieldContainsAllNumbers()
         {
-            GameField gameField = new GameField();
+            Game gameField = new Game();
             
             gameField.ValidRandomField();
 

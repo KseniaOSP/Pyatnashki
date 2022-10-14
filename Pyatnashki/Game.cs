@@ -1,24 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Pyatnashki
+﻿namespace Pyatnashki
 {
-    public class GameField
+    // представляет экземпляр игры "Пятнашки"
+    public class Game
     {
+        // игровое поле с числами от 0 до 15, где 0 - пустая клетка, а остальные - фишки
         int[,] field = new int[4,4];
+        // индекс строки, в которой находится пустая клетка
+        // (соответствует нулевой клетке в field)
         int emptyCellRow;
+        // индекс столбца, в котором находится пустая клетка
+        // (соответствует нулевой клетке в field)
         int emptyCellCol;
 
+        // возвращает игровое поле с числами от 0 до 15, где 0 - пустая клетка, а остальные - фишки
         public int[,] GetData()
         {
             return field;  
         }
-
-        
-        // метод, который выводит поле, в котором только нужный нам параметр беспорядка
+                
+        // инициализирует поле случайным образом, но так, чтобы его можно было решить
         public void ValidRandomField()
         {
             int disorder;
@@ -28,10 +28,9 @@ namespace Pyatnashki
                 disorder = FindDisorder(field);
             }
             while (disorder % 2 != 0);
-
         }
 
-        // метод, который формирует рандомное поле
+        // инициализирует поле случайным образом
         private void RandomField()
         {
             Random random = new Random();
@@ -42,14 +41,14 @@ namespace Pyatnashki
             {
                 for (int j = 0; j < field.GetLength(1); j++)
                 {
-                    field[i, j] = list[i*field.GetLength(1)+j];
+                    field[i, j] = list[i * field.GetLength(1) + j];
                 }
             }
 
             UpdateEmptyCell();
         }
 
-        // метод, который обновляет координаты пустой клетки
+        // обновляет координаты пустой клетки так, чтобы они соответствовали содержимому field
         private void UpdateEmptyCell()  
         {
             for (int i = 0; i < field.GetLength(0); i++)
@@ -66,50 +65,54 @@ namespace Pyatnashki
             }
         }
 
-        // Методы, которые определяют куда пойдет пустая клетка при движении влево/вправо/вниз/вверх
+        // осуществляет ход влево, если он возможен
         public void MoveLeft()
         {
-            
-            if (emptyCellCol != field.GetLength(1)-1)
+            if (emptyCellCol != field.GetLength(1) - 1)
             { 
-                field[emptyCellRow, emptyCellCol]=field[emptyCellRow, emptyCellCol+1];
+                field[emptyCellRow, emptyCellCol] = field[emptyCellRow, emptyCellCol + 1];
                 field[emptyCellRow, emptyCellCol + 1] = 0;
-                emptyCellCol = emptyCellCol + 1;
+                emptyCellCol++;
             }
-            
         }
+        
+        // осуществляет ход вправо, если он возможен
         public void MoveRight()
         {
             if (emptyCellCol != 0)
             {
                 field[emptyCellRow, emptyCellCol] = field[emptyCellRow, emptyCellCol - 1];
                 field[emptyCellRow, emptyCellCol - 1] = 0;
-                emptyCellCol = emptyCellCol - 1;
+                emptyCellCol--;
             }
         }
+        
+        // осуществляет ход вверх, если он возможен
         public void MoveUp()
         {
             if (emptyCellRow != field.GetLength(0) - 1)
             {
                 field[emptyCellRow, emptyCellCol] = field[emptyCellRow + 1, emptyCellCol];
                 field[emptyCellRow + 1, emptyCellCol] = 0;
-                emptyCellRow = emptyCellRow + 1;
+                emptyCellRow++;
             }
         }
+        
+        // осуществляет ход вниз, если он возможен
         public void MoveDown()
         {
             if (emptyCellRow != 0)
             {
                 field[emptyCellRow, emptyCellCol] = field[emptyCellRow - 1, emptyCellCol];
                 field[emptyCellRow - 1, emptyCellCol] = 0;
-                emptyCellRow = emptyCellRow - 1;
+                emptyCellRow--;
             }
         }
 
-        // метод, который находит параметр беспорядка
+        // находит параметр беспорядка
         private int FindDisorder(int [,] field) 
         {
-            // создаем одномерный массив, в который развернется наш двумерный массив (наше поле)
+            // разворачиваем поле в одномерный массив
             int[] fieldDisorder = new int[field.Length]; 
             int z = 0;
 
@@ -130,17 +133,14 @@ namespace Pyatnashki
             {
                 for (int j = i + 1; j < fieldDisorder.Length; j++)
                 {
-                    // если первая цифра больше, чем последующая, и последующая не равна нулю,
-                    // увеличиваем значение счетчика на 1
                     if (fieldDisorder[i] > fieldDisorder[j] && fieldDisorder[j] != 0)
                         count++;
                 }
             }
-            // возвращаем счетчик + индекс ряда, в котором находится пустая клетка + 1
-            return count+emptyCellRow+1;
+            return count + emptyCellRow + 1;
         }
 
-        // метод, который сравнивает победное поле с текущим полем
+        // определяет, является ли текущее поле победным
         public bool IsWinField()
         {
             int[,] winField = new int[4, 4] { { 1, 2, 3, 4 }, { 5, 6, 7, 8 }, { 9, 10, 11, 12 }, { 13, 14, 15, 0 } };
@@ -150,9 +150,11 @@ namespace Pyatnashki
             return winFieldCast.SequenceEqual(gameFieldCast);
         }
 
+        // устанавливает заданное поле (используется только тестами)
         public void SetField(int[,] newfield)
         {
-            field = (int [,])newfield.Clone(); // защитная копия, чтобы убедиться, что снаружи никто менять не будет
+            // защитная копия, чтобы убедиться, что снаружи никто менять не будет
+            field = (int [,])newfield.Clone(); 
             UpdateEmptyCell();
         }
     }
