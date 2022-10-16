@@ -19,6 +19,7 @@
             // отображаем победное поле
             Display(game);
             Console.WriteLine("Вы победили!");
+            Console.ReadLine();
         }
 
         // обрабатывает нажатую клавишу 
