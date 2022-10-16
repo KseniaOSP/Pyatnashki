@@ -4,9 +4,8 @@
     public class ConsoleUI
     {
         // начинает игровую сессию
-        internal void Start() 
+        internal void Play() 
         {
-            Console.WriteLine("Игра началась");
             Game game = new Game();
             game.ValidRandomField();
 
