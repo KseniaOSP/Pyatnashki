@@ -48,7 +48,7 @@
             return Console.ReadKey().Key;
         }
 
-        // выводит игровое поле на консоли
+        // выводит игровое поле на консоль
         private void Display(Game game) 
         {   
             Console.Clear();
