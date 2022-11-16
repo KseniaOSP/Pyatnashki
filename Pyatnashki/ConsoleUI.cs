@@ -1,8 +1,14 @@
 ﻿namespace Pyatnashki
 {
-    // обеспечивает взаимодействие с пользователем посредством консоли
+    // Обеспечивает взаимодействие с пользователем посредством консоли
     public class ConsoleUI
     {
+        // Размер фишки.
+        const int CELL_WIDTH = 8;
+        const int CELL_HEIGHT = 5;
+
+        ConsoleBuffer buffer = new ConsoleBuffer(4 * CELL_WIDTH, 4 * CELL_HEIGHT);
+
         // начинает игровую сессию
         internal void Play() 
         {
@@ -49,26 +55,39 @@
         }
 
         // выводит игровое поле на консоль
-        private void Display(Game game) 
-        {   
-            Console.Clear();
+        protected void Display(Game game)
+        {
+            buffer.Clear();
 
-            int[,] data = game.GetData();
-            
-            for (int i = 0; i < data.GetLength(0); i++)  
+            int[,] field = game.GetData();
+
+            for (int i = 0; i < field.GetLength(0); i++)
             {
-                for (int j = 0; j < data.GetLength(1); j++)
+                for (int j = 0; j < field.GetLength(1); j++)
                 {
-                    if (data[i, j] == 0)
-                    {
-                        Console.Write("   ");
-                    }
-                    else Console.Write(String.Format("{0,3}",data[i, j]));
+                    DrawCell(i, j, field[i, j]);
                 }
-                Console.WriteLine();
             }
 
-            Console.WriteLine();
+            buffer.Display();
+        }
+
+        void DrawCell(int row, int col, int value)
+        {
+            if (value == 0)
+                // Это пустая ячейка, ничего не нужно отображать
+                return;
+
+            int rowCoord = row * CELL_HEIGHT;
+            int colCoord = col * CELL_WIDTH;
+
+            buffer.PutString(rowCoord + 0, colCoord, @"/======\");
+            buffer.PutString(rowCoord + 1, colCoord, @"|      |");
+            buffer.PutString(rowCoord + 2, colCoord, @"|      |");
+            buffer.PutString(rowCoord + 3, colCoord, @"|      |");
+            buffer.PutString(rowCoord + 4, colCoord, @"\======/");
+
+            buffer.PutString(rowCoord + 2, colCoord + 3, String.Format("{0,2}", value));
         }
     }
 }
